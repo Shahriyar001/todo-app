@@ -2,9 +2,17 @@ import { useAppSelector } from "@/redux/hook";
 import AddTodoModal from "./AddTodoModal";
 import TodoCard from "./TodoCard";
 import TodoFilter from "./TodoFilter";
+import { useGetTodosQuery } from "@/redux/api/api";
 
 const TodoConttainer = () => {
-  const { todos } = useAppSelector((state) => state.todos);
+  //   const { todos } = useAppSelector((state) => state.todos);
+
+  const { data: todos, isLoading, isError } = useGetTodosQuery(undefined);
+  console.log(todos);
+  if (isLoading) {
+    return <p>Loading..</p>;
+  }
+
   return (
     <div>
       <div className="flex justify-between mb-5">
@@ -17,7 +25,7 @@ const TodoConttainer = () => {
             <p>There is no tusk pending</p>
             {""}
           </div> */}
-          {todos.map((item) => (
+          {todos?.data?.map((item) => (
             <TodoCard {...item} />
           ))}
         </div>
